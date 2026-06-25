@@ -1,39 +1,72 @@
-import express from "express";
-import cors from "cors";
 import "dotenv/config";
 
-import { connectDB } from "./services/mongo.service.js";
-import queryRoutes from "./routes/query.routes.js";
+import { GoogleGenAI } from "@google/genai";
 
-const app = express();
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY,
+});
 
-app.use(cors());
-app.use(express.json());
+const prompt = `
+You are a MongoDB aggregation expert.
 
-console.log("=================================");
-console.log("DB_NAME:", process.env.DB_NAME);
-console.log("COLLECTION_NAME:", process.env.COLLECTION_NAME);
-console.log("=================================");
+Return ONLY a valid MongoDB aggregation pipeline.
 
-try {
-  await connectDB();
-  console.log("MongoDB Connected Successfully");
-} catch (error) {
-  console.error("MongoDB Connection Failed:");
-  console.error(error);
+Collection Name:
+Roster-Data
+
+Available Fields:
+slNo
+name
+organization
+address
+city
+state
+country
+zipcode
+phoneNumber
+registrationNumber
+category
+
+Rules:
+
+1. Return ONLY JSON.
+2. No markdown.
+3. No explanation.
+4. Use only aggregation operators.
+5. Never use update, delete, merge or out.
+6. Use exact field names.
+
+Question:
+Give any two attorneys information
+`;
+
+async function test() {
+
+  try {
+
+    console.log("Using Model:", "gemma-4-31b-it");
+
+    const response =
+      await ai.models.generateContent({
+
+        model: "gemma-4-31b-it",
+
+        contents: prompt
+
+      });
+
+    console.log("\n========== RESPONSE ==========\n");
+
+    console.log(response.text);
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+  }
+
 }
 
-app.use("/api/query", queryRoutes);
-
-app.get("/", (req, res) => {
-  res.json({
-    success: true,
-    message: "Athena-BI Backend Running",
-  });
-});
-
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+test();

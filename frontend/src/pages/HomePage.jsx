@@ -4,12 +4,18 @@ import QueryInput from "../components/QueryInput";
 import PipelineViewer from "../components/PipelineViewer";
 import ResultsTable from "../components/ResultsTable";
 import ResultsChart from "../components/ResultsChart";
+import KPICards from "../components/KPICards";
+import SuggestedQuestions from "../components/SuggestedQuestions";
+import LoadingState from "../components/LoadingState";
+
+
 
 import { askAthena } from "../services/api";
 
 const HomePage = () => {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
+  const [selectedQuestion, setSelectedQuestion] = useState("");
 
   const handleAsk = async (question) => {
     try {
@@ -38,19 +44,29 @@ const HomePage = () => {
           Autonomous Business Intelligence Platform
         </p>
 
-        <QueryInput onAsk={handleAsk} />
+        <QueryInput 
+        onAsk={handleAsk}
+        selectedQuestion={selectedQuestion} 
+        />
+        <SuggestedQuestions
+          onSelect={(question) => {
+            setSelectedQuestion(question);
+            handleAsk(question);
+          }}
+        />
 
-        {loading && (
-          <div className="mt-10 text-center">
-            Analyzing...
-          </div>
-        )}
+        {loading && <LoadingState />}
 
         {response && (
           <div className="mt-10 space-y-8">
 
+            <KPICards
+              data={response.data}
+            />
+
             <ResultsChart
               data={response.data}
+              question={response.question}
             />
 
             <ResultsTable
