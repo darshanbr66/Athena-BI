@@ -7,6 +7,7 @@ import ResultsChart from "../components/ResultsChart";
 import KPICards from "../components/KPICards";
 import SuggestedQuestions from "../components/SuggestedQuestions";
 import LoadingState from "../components/LoadingState";
+import ExecutionDetails from "../components/ExecutionDetails";
 
 
 
@@ -71,6 +72,12 @@ const HomePage = () => {
 
             <ResultsTable
               data={response.data}
+            />
+
+            <ExecutionDetails
+              execution={response.execution}
+              pipeline={response.pipeline}
+              totalRecords={response.totalRecords}
             />
 
             <PipelineViewer

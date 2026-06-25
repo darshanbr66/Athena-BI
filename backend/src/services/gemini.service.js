@@ -6,19 +6,44 @@ const ai = new GoogleGenAI({
 
 export const generatePipeline = async (
   question,
-  prompt
+  prompt,
+  previousError = ""
 ) => {
 
-  const response =
-    await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: `
+  const fullPrompt = `
+
 ${prompt}
 
 Question:
 ${question}
-`,
+
+${
+  previousError
+    ? `
+Previous Error:
+${previousError}
+
+The previous MongoDB aggregation pipeline was invalid.
+
+Please correct the mistake.
+
+Return ONLY a valid MongoDB aggregation pipeline as JSON.
+
+Do NOT explain anything.
+`
+    : ""
+}
+`;
+
+  const response =
+    await ai.models.generateContent({
+
+      model: process.env.AI_MODEL,
+
+      contents: fullPrompt,
+
     });
 
   return response.text;
+
 };

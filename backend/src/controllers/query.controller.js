@@ -1,8 +1,9 @@
-import { generatePipeline } from "../services/gemini.service.js";
+// import { generatePipeline } from "../services/gemini.service.js";
 import validatePipeline from "../services/validator.service.js";
 import { executePipeline } from "../services/mongo.service.js";
 import MQL_PROMPT from "../prompts/mql.prompt.js";
 import { preprocessQuestion } from "../services/queryPreprocessor.service.js";
+import { retryPipeline } from "../services/retryPipeline.service.js";
 
 function cleanResponse(text) {
   return text
@@ -12,14 +13,12 @@ function cleanResponse(text) {
 }
 
 export const askQuestion = async (req, res) => {
+
   try {
+
+    const totalStart = Date.now();
+
     const { question } = req.body;
-
-    const processedQuestion =
-      preprocessQuestion(question);
-
-    console.log("Original:", question);
-    console.log("Processed:", processedQuestion);
 
     if (!question) {
       return res.status(400).json({
@@ -28,39 +27,117 @@ export const askQuestion = async (req, res) => {
       });
     }
 
-    // Step 1: Generate MQL Pipeline
-    const aiResponse = await generatePipeline(
+    const processedQuestion =
+      preprocessQuestion(question);
+
+    console.log("Original:", question);
+    console.log("Processed:", processedQuestion);
+
+    // ==========================
+    // AI Pipeline Generation
+    // ==========================
+
+    const aiStart = Date.now();
+
+    const aiResponse =
+    await retryPipeline(
       processedQuestion,
       MQL_PROMPT
     );
 
-    // Step 2: Clean Gemini Response
-    const cleanedResponse = cleanResponse(aiResponse);
+    const aiTime =
+      Date.now() - aiStart;
 
-    // Step 3: Convert to JSON
-    const pipeline = JSON.parse(cleanedResponse);
+    // ==========================
+    // Clean AI Response
+    // ==========================
 
-    // Step 4: Validate Pipeline
+    const cleanedResponse =
+      cleanResponse(aiResponse);
+
+    // ==========================
+    // Convert to JSON
+    // ==========================
+
+    const pipeline =
+      JSON.parse(cleanedResponse);
+
+    // ==========================
+    // Validate Pipeline
+    // ==========================
+
     validatePipeline(pipeline);
 
-    // Step 5: Execute Pipeline
-    const data = await executePipeline(pipeline);
+    // ==========================
+    // Execute MongoDB Pipeline
+    // ==========================
 
-    // Step 6: Return Response
+    const dbStart = Date.now();
+
+    const data =
+      await executePipeline(pipeline);
+
+    const dbTime =
+      Date.now() - dbStart;
+
+    // ==========================
+    // Total Execution Time
+    // ==========================
+
+    const totalTime =
+      Date.now() - totalStart;
+
+    // ==========================
+    // Response
+    // ==========================
+
     return res.status(200).json({
+
       success: true,
+
       question,
+
       pipeline,
+
       totalRecords: data.length,
+
       data,
+
+      execution: {
+
+        model:
+          process.env.AI_MODEL,
+
+        queryGenerationMs:
+          aiTime,
+
+        databaseExecutionMs:
+          dbTime,
+
+        totalExecutionMs:
+          totalTime
+
+      }
+
     });
 
-  } catch (error) {
-    console.error("Athena Error:", error);
+  }
+
+  catch (error) {
+
+    console.error(
+      "Athena Error:",
+      error
+    );
 
     return res.status(500).json({
+
       success: false,
+
       message: error.message,
+
     });
+
   }
+
 };
