@@ -1,78 +1,98 @@
 const KPICards = ({ data }) => {
+  if (!data || data.length === 0) {
+    return null;
+  }
 
-if (!data || data.length === 0) {
-return null;
-}
+  const firstRow = data[0];
 
-const firstRow = data[0];
+  const keys = Object.keys(firstRow);
 
-const keys = Object.keys(firstRow);
+  const labelKey = keys[0];
+  const valueKey = keys[1];
 
-const labelKey = keys[0];
-const valueKey = keys[1];
+  const cards = [
+    {
+      title: "Total Results",
+      value: data.length,
+      icon: "📊",
+    },
+    {
+      title: "Top Value",
+      value: firstRow[labelKey],
+      icon: "🏆",
+    },
+    {
+      title: "Highest Count",
+      value: firstRow[valueKey],
+      icon: "📈",
+    },
+  ];
 
-return ( <div
-   className="
-     grid
-     grid-cols-1
-     md:grid-cols-3
-     gap-4
-   "
- >
+  return (
+    <div
+      className="
+        grid
+        grid-cols-1
+        sm:grid-cols-2
+        lg:grid-cols-3
+        gap-4
+      "
+    >
+      {cards.map((card) => (
+        <div
+          key={card.title}
+          className="
+            bg-slate-900
+            border
+            border-slate-800
+            rounded-2xl
+            p-5
+            transition-all
+            duration-300
+            hover:border-cyan-500/40
+            hover:-translate-y-1
+            hover:shadow-xl
+            hover:shadow-cyan-500/10
+          "
+        >
+          <div
+            className="
+              flex
+              items-center
+              justify-between
+              mb-4
+            "
+          >
+            <h3
+              className="
+                text-sm
+                sm:text-base
+                text-slate-400
+                font-medium
+              "
+            >
+              {card.title}
+            </h3>
 
+            <span className="text-2xl">
+              {card.icon}
+            </span>
+          </div>
 
-  <div
-    className="
-      bg-slate-900
-      p-5
-      rounded-xl
-    "
-  >
-    <h3 className="text-slate-400">
-      Total Results
-    </h3>
-
-    <p className="text-3xl font-bold">
-      {data.length}
-    </p>
-  </div>
-
-  <div
-    className="
-      bg-slate-900
-      p-5
-      rounded-xl
-    "
-  >
-    <h3 className="text-slate-400">
-      Top Value
-    </h3>
-
-    <p className="text-3xl font-bold">
-      {firstRow[labelKey]}
-    </p>
-  </div>
-
-  <div
-    className="
-      bg-slate-900
-      p-5
-      rounded-xl
-    "
-  >
-    <h3 className="text-slate-400">
-      Highest Count
-    </h3>
-
-    <p className="text-3xl font-bold">
-      {firstRow[valueKey]}
-    </p>
-  </div>
-
-</div>
-
-
-);
+          <p
+            className="
+              text-2xl
+              sm:text-3xl
+              font-bold
+              break-words
+            "
+          >
+            {card.value}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
 };
 
 export default KPICards;

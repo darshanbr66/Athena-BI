@@ -139,3 +139,263 @@ Which organization has the highest number of attorneys?
 Which state has the highest attorney concentration?
 Show attorney count by state
 Where do most attorneys work?
+
+
+------------------------------------------------------------
+# GitHub Pages Deployment Guide (React + Vite)
+
+## Step 1: Push the Project to GitHub
+
+```bash
+git init
+
+git add .
+
+git commit -m "Initial Commit"
+
+git branch -M main
+
+git remote add origin https://github.com/<username>/<repository>.git
+
+git push -u origin main
+```
+
+---
+
+## Step 2: Install GitHub Pages
+
+Inside the frontend folder:
+
+```bash
+npm install --save-dev gh-pages
+```
+
+---
+
+## Step 3: Update `vite.config.js`
+
+```javascript
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+
+export default defineConfig({
+
+  base:
+
+    process.env.NODE_ENV === "production"
+
+      ? "/Repository-Name/"
+
+      : "/",
+
+  plugins: [
+
+    react(),
+
+  ],
+
+});
+```
+
+Replace:
+
+```
+Repository-Name
+```
+
+with your GitHub repository name.
+
+Example:
+
+```
+Athena-BI
+```
+
+---
+
+## Step 4: Update `package.json`
+
+Add
+
+```json
+"homepage": "https://<username>.github.io/<repository>"
+```
+
+Example
+
+```json
+"homepage": "https://darshanbr66.github.io/Athena-BI"
+```
+
+Add these scripts
+
+```json
+"predeploy": "npm run build",
+"deploy": "gh-pages -d dist"
+```
+
+---
+
+## Step 5: Environment Variables (Recommended)
+
+Create
+
+### .env.development
+
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+Create
+
+### .env.production
+
+```env
+VITE_API_URL=https://your-backend.onrender.com/api
+```
+
+Use in code
+
+```javascript
+const API_URL = import.meta.env.VITE_API_URL;
+```
+
+No package installation is required for Vite.
+
+---
+
+## Step 6: Deploy
+
+Commit the latest changes
+
+```bash
+git add .
+
+git commit -m "Configured GitHub Pages"
+
+git push origin main
+```
+
+Deploy
+
+```bash
+npm run deploy
+```
+
+This automatically creates/updates the `gh-pages` branch.
+
+---
+
+## Step 7: Configure GitHub Pages
+
+GitHub Repository
+
+↓
+
+Settings
+
+↓
+
+Pages
+
+↓
+
+Build and deployment
+
+↓
+
+Source
+
+```
+Deploy from a branch
+```
+
+↓
+
+Branch
+
+```
+gh-pages
+```
+
+↓
+
+Folder
+
+```
+/ (root)
+```
+
+↓
+
+Save
+
+---
+
+## Step 8: Website URL
+
+Your website will be available at
+
+```
+https://<username>.github.io/<repository>/
+```
+
+Example
+
+```
+https://darshanbr66.github.io/Athena-BI/
+```
+
+---
+
+# Updating the Website Later
+
+Whenever you make frontend changes
+
+```bash
+git add .
+
+git commit -m "Updated UI"
+
+git push origin main
+
+npm run deploy
+```
+
+That's all.
+
+The website is updated automatically.
+
+---
+
+# Notes
+
+GitHub Pages only hosts static files.
+
+It CANNOT host
+
+* Node.js
+* Express
+* MongoDB
+* Python
+* Java
+* PHP
+
+For the backend, use services like Render, Railway, Fly.io, or a VPS.
+
+Typical architecture:
+
+```
+GitHub Pages
+      │
+      ▼
+React Frontend
+      │
+      ▼
+Render Backend
+      │
+      ▼
+MongoDB Atlas
+```
+
+This is the recommended architecture for MERN projects.

@@ -9,8 +9,6 @@ import SuggestedQuestions from "../components/SuggestedQuestions";
 import LoadingState from "../components/LoadingState";
 import ExecutionDetails from "../components/ExecutionDetails";
 
-
-
 import { askAthena } from "../services/api";
 
 const HomePage = () => {
@@ -34,21 +32,57 @@ const HomePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
-      <div className="max-w-7xl mx-auto p-10">
-
-        <h1 className="text-6xl font-bold text-center">
+    <div
+      className="
+        min-h-screen
+        bg-slate-950
+        text-white
+        overflow-x-hidden
+      "
+    >
+      <div
+        className="
+          max-w-7xl
+          mx-auto
+          px-4
+          sm:px-6
+          lg:px-8
+          py-8
+          sm:py-10
+        "
+      >
+        <h1
+          className="
+            text-4xl
+            sm:text-5xl
+            lg:text-6xl
+            font-bold
+            text-center
+            leading-tight
+          "
+        >
           Athena-BI
         </h1>
 
-        <p className="text-center text-slate-400 mt-3">
+        <p
+          className="
+            mt-3
+            text-center
+            text-slate-400
+            text-sm
+            sm:text-base
+            max-w-2xl
+            mx-auto
+          "
+        >
           Autonomous Business Intelligence Platform
         </p>
 
-        <QueryInput 
-        onAsk={handleAsk}
-        selectedQuestion={selectedQuestion} 
+        <QueryInput
+          onAsk={handleAsk}
+          selectedQuestion={selectedQuestion}
         />
+
         <SuggestedQuestions
           onSelect={(question) => {
             setSelectedQuestion(question);
@@ -59,8 +93,14 @@ const HomePage = () => {
         {loading && <LoadingState />}
 
         {response && (
-          <div className="mt-10 space-y-8">
-
+          <div
+            className="
+              mt-8
+              sm:mt-10
+              space-y-6
+              sm:space-y-8
+            "
+          >
             <KPICards
               data={response.data}
             />
@@ -83,7 +123,6 @@ const HomePage = () => {
             <PipelineViewer
               pipeline={response.pipeline}
             />
-
           </div>
         )}
       </div>

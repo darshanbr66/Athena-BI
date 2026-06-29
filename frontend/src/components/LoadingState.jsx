@@ -23,8 +23,10 @@ const LoadingState = () => {
       <div
         className="
           grid
+          grid-cols-1
           lg:grid-cols-2
-          min-h-[460px]
+          min-h-auto
+          lg:min-h-[460px]
         "
       >
 
@@ -36,12 +38,12 @@ const LoadingState = () => {
           className="
             relative
             p-4
+            sm:p-6
+            lg:p-8
             border-b
             lg:border-b-0
             lg:border-r
             border-slate-800
-            mt-0
-            mb-0
           "
         >
 
@@ -52,7 +54,7 @@ const LoadingState = () => {
               flex
               items-center
               gap-4
-              mb-4
+              mb-6
             "
           >
 
@@ -62,25 +64,32 @@ const LoadingState = () => {
                 flex
                 items-center
                 justify-center
-                w-12
-                h-12
+                w-10
+                h-10
+                sm:w-12
+                sm:h-12
                 rounded-full
                 bg-cyan-500/20
+                flex-shrink-0
               "
             >
 
               <div
                 className="
                   absolute
-                  w-12
-                  h-12
+                  inset-0
                   rounded-full
                   bg-cyan-400/20
                   animate-ping
                 "
               />
 
-              <span className="text-2xl">
+              <span
+                className="
+                  text-xl
+                  sm:text-2xl
+                "
+              >
                 A
               </span>
 
@@ -90,7 +99,8 @@ const LoadingState = () => {
 
               <h2
                 className="
-                  text-3xl
+                  text-2xl
+                  sm:text-3xl
                   font-bold
                   tracking-wide
                 "
@@ -100,7 +110,9 @@ const LoadingState = () => {
 
               <p
                 className="
-                  mt-0
+                  mt-1
+                  text-sm
+                  sm:text-base
                   text-slate-400
                 "
               >
@@ -113,7 +125,7 @@ const LoadingState = () => {
 
           {/* Steps */}
 
-          <div className="space-y-1">
+          <div className="space-y-3">
 
             <StepCard
               status="success"
@@ -145,13 +157,13 @@ const LoadingState = () => {
 
           <div
             className="
-              mt-2
-              mb-0
+              mt-6
               rounded-2xl
               border
               border-cyan-500/20
               bg-slate-800/40
               p-4
+              sm:p-5
             "
           >
 
@@ -159,7 +171,8 @@ const LoadingState = () => {
               className="
                 flex
                 justify-between
-                text-sm
+                text-xs
+                sm:text-sm
               "
             >
 
@@ -167,7 +180,7 @@ const LoadingState = () => {
                 AI MODEL
               </span>
 
-              <span className="text-cyan-400">
+              <span className="text-cyan-400 text-right">
                 Gemma 4 31B
               </span>
 
@@ -178,7 +191,8 @@ const LoadingState = () => {
                 mt-4
                 flex
                 justify-between
-                text-sm
+                text-xs
+                sm:text-sm
               "
             >
 
@@ -197,7 +211,8 @@ const LoadingState = () => {
                 mt-4
                 flex
                 justify-between
-                text-sm
+                text-xs
+                sm:text-sm
               "
             >
 
@@ -227,7 +242,11 @@ const LoadingState = () => {
             flex-col
             items-center
             justify-center
-            p-8
+            p-6
+            sm:p-8
+            lg:p-10
+            min-h-[360px]
+            lg:min-h-0
             bg-gradient-to-br
             from-slate-900
             via-blue-950
@@ -240,10 +259,7 @@ const LoadingState = () => {
           <div
             className="
               absolute
-              top-0
-              left-0
-              w-full
-              h-full
+              inset-0
               bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.10),transparent_70%)]
             "
           />
@@ -294,12 +310,14 @@ const StepCard = ({
       className="
         flex
         items-start
-        gap-5
+        gap-4
+        sm:gap-5
         rounded-2xl
         border
         border-slate-800
         bg-slate-900/50
-        p-5
+        p-4
+        sm:p-5
         hover:border-cyan-500/30
         transition-all
       "
@@ -307,12 +325,15 @@ const StepCard = ({
 
       <div
         className={`
-          w-12
-          h-12
+          w-10
+          h-10
+          sm:w-12
+          sm:h-12
           rounded-xl
           flex
           items-center
           justify-center
+          flex-shrink-0
           ${bg}
         `}
       >
@@ -325,8 +346,10 @@ const StepCard = ({
 
               <div
                 className="
-                  w-6
-                  h-6
+                  w-5
+                  h-5
+                  sm:w-6
+                  sm:h-6
                   rounded-full
                   border-[3px]
                   border-yellow-500/20
@@ -341,7 +364,8 @@ const StepCard = ({
 
               <span
                 className={`
-                  text-xl
+                  text-lg
+                  sm:text-xl
                   ${color}
                 `}
               >
@@ -354,11 +378,12 @@ const StepCard = ({
 
       </div>
 
-      <div className="flex-1">
+      <div className="flex-1 min-w-0">
 
         <h3
           className="
-            text-lg
+            text-base
+            sm:text-lg
             font-semibold
           "
         >
@@ -370,7 +395,8 @@ const StepCard = ({
         <p
           className="
             mt-1
-            text-sm
+            text-xs
+            sm:text-sm
             text-slate-400
           "
         >
