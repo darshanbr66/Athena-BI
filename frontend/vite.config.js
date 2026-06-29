@@ -3,8 +3,15 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
+
+  base: "/Athena-BI/",
+
   plugins: [
+
     react(),
+
     tailwindcss(),
+
   ],
+
 });
