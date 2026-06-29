@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import QueryInput from "../components/QueryInput";
 import PipelineViewer from "../components/PipelineViewer";
@@ -12,26 +12,66 @@ import ExecutionDetails from "../components/ExecutionDetails";
 import { askAthena } from "../services/api";
 
 const HomePage = () => {
+
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const [selectedQuestion, setSelectedQuestion] = useState("");
 
+  const loadingRef = useRef(null);
+  const resultRef = useRef(null);
+
   const handleAsk = async (question) => {
+
     try {
+
+      setResponse(null);
+
       setLoading(true);
+
+      setTimeout(() => {
+
+        loadingRef.current?.scrollIntoView({
+
+          behavior: "smooth",
+
+          block: "center",
+
+        });
+
+      }, 100);
 
       const result = await askAthena(question);
 
       setResponse(result);
+
+      setTimeout(() => {
+
+        resultRef.current?.scrollIntoView({
+
+          behavior: "smooth",
+
+          block: "start",
+
+        });
+
+      }, 150);
+
     } catch (error) {
+
       console.error(error);
+
       alert("Failed to fetch data");
+
     } finally {
+
       setLoading(false);
+
     }
+
   };
 
   return (
+
     <div
       className="
         min-h-screen
@@ -40,6 +80,7 @@ const HomePage = () => {
         overflow-x-hidden
       "
     >
+
       <div
         className="
           max-w-7xl
@@ -51,6 +92,7 @@ const HomePage = () => {
           sm:py-10
         "
       >
+
         <h1
           className="
             text-4xl
@@ -85,49 +127,68 @@ const HomePage = () => {
 
         <SuggestedQuestions
           onSelect={(question) => {
+
             setSelectedQuestion(question);
+
             handleAsk(question);
+
           }}
         />
 
-        {loading && <LoadingState />}
+        <div ref={loadingRef}>
 
-        {response && (
-          <div
-            className="
-              mt-8
-              sm:mt-10
-              space-y-6
-              sm:space-y-8
-            "
-          >
-            <KPICards
-              data={response.data}
-            />
+          {loading && <LoadingState />}
 
-            <ResultsChart
-              data={response.data}
-              question={response.question}
-            />
+        </div>
 
-            <ResultsTable
-              data={response.data}
-            />
+        <div ref={resultRef}>
 
-            <ExecutionDetails
-              execution={response.execution}
-              pipeline={response.pipeline}
-              totalRecords={response.totalRecords}
-            />
+          {response && (
 
-            <PipelineViewer
-              pipeline={response.pipeline}
-            />
-          </div>
-        )}
+            <div
+              className="
+                mt-8
+                sm:mt-10
+                space-y-6
+                sm:space-y-8
+              "
+            >
+
+              <KPICards
+                data={response.data}
+              />
+
+              <ResultsChart
+                data={response.data}
+                question={response.question}
+              />
+
+              <ResultsTable
+                data={response.data}
+              />
+
+              <ExecutionDetails
+                execution={response.execution}
+                pipeline={response.pipeline}
+                totalRecords={response.totalRecords}
+              />
+
+              <PipelineViewer
+                pipeline={response.pipeline}
+              />
+
+            </div>
+
+          )}
+
+        </div>
+
       </div>
+
     </div>
+
   );
+
 };
 
 export default HomePage;
