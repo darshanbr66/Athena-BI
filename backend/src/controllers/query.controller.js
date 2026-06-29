@@ -1,16 +1,6 @@
-// import { generatePipeline } from "../services/gemini.service.js";
-import validatePipeline from "../services/validator.service.js";
 import { executePipeline } from "../services/mongo.service.js";
-import MQL_PROMPT from "../prompts/mql.prompt.js";
 import { preprocessQuestion } from "../services/queryPreprocessor.service.js";
-import { retryPipeline } from "../services/retryPipeline.service.js";
-
-function cleanResponse(text) {
-  return text
-    .replace(/```json/g, "")
-    .replace(/```/g, "")
-    .trim();
-}
+import { selfHealingPipeline } from "../services/selfHealing.service.js";
 
 export const askQuestion = async (req, res) => {
 
@@ -21,10 +11,15 @@ export const askQuestion = async (req, res) => {
     const { question } = req.body;
 
     if (!question) {
+
       return res.status(400).json({
+
         success: false,
+
         message: "Question is required",
+
       });
+
     }
 
     const processedQuestion =
@@ -39,34 +34,13 @@ export const askQuestion = async (req, res) => {
 
     const aiStart = Date.now();
 
-    const aiResponse =
-    await retryPipeline(
-      processedQuestion,
-      MQL_PROMPT
-    );
+    const pipeline =
+      await selfHealingPipeline(
+        processedQuestion
+      );
 
     const aiTime =
       Date.now() - aiStart;
-
-    // ==========================
-    // Clean AI Response
-    // ==========================
-
-    const cleanedResponse =
-      cleanResponse(aiResponse);
-
-    // ==========================
-    // Convert to JSON
-    // ==========================
-
-    const pipeline =
-      JSON.parse(cleanedResponse);
-
-    // ==========================
-    // Validate Pipeline
-    // ==========================
-
-    validatePipeline(pipeline);
 
     // ==========================
     // Execute MongoDB Pipeline
@@ -75,7 +49,9 @@ export const askQuestion = async (req, res) => {
     const dbStart = Date.now();
 
     const data =
-      await executePipeline(pipeline);
+      await executePipeline(
+        pipeline
+      );
 
     const dbTime =
       Date.now() - dbStart;

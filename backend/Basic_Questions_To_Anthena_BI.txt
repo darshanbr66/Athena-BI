@@ -1,0 +1,141 @@
+1. Basic Analytics
+
+Top 10 states by attorney count
+Top 10 cities by attorney count
+Top 5 organizations by attorney count
+Attorney vs Agent distribution
+Top 10 countries by attorney count
+
+2. Count Queries
+
+How many attorneys are in California?
+How many attorneys are in Texas?
+How many attorneys are in New York?
+How many agents are there?
+Count all organizations
+Total number of attorneys
+Total number of agents
+Count records in Pennsylvania
+
+3. Empty Data Analysis
+
+Give the total count of empty organization
+How many records have empty phone numbers?
+How many records have empty city?
+How many records have empty state?
+How many records have empty country?
+How many records have empty zip code?
+How many records have empty email address?
+Show records with missing organization
+
+4. Organization Analysis
+
+Top organizations in California
+Top organizations in Pennsylvania
+Top organizations in Texas
+Top organizations in New York
+Top organizations in Illinois
+Which organization has the highest attorney count?
+Show top 20 organizations
+List organizations with more than 100 attorneys
+
+5. State-wise Analysis
+
+Show attorney count by state
+List all states with attorney count
+Which state has the highest attorney count?
+Which state has the lowest attorney count?
+Top 5 states with the most attorneys
+Top 10 states with the least attorneys
+Attorney distribution by state
+
+6. City-wise Analysis
+
+Top cities in California
+Top cities in Texas
+Top cities in New York
+Attorney count by city
+Top 20 cities by attorney count
+Which city has the highest attorney count?
+Show attorney distribution by city
+
+7. Category Analysis
+
+Attorney vs Agent distribution
+Show category distribution
+Count attorneys
+Count agents
+Count design agents
+Count patent attorneys
+Category-wise attorney distribution
+
+8. Geographic Analysis
+
+Attorney count by country
+Attorney count by state
+Attorney count by city
+Top countries by attorney count
+Top states in USA
+Top cities in USA
+Geographic distribution of attorneys
+
+9. Business Questions
+
+Which organization has the highest number of attorneys?
+Which state has the highest attorney concentration?
+Which city has the highest attorney count?
+Which organization dominates California?
+Where are most attorneys located?
+Which state has the strongest legal presence?
+Which city has the largest attorney workforce?
+
+10. Data Quality
+
+How many records have missing organizations?
+How many records have missing phone numbers?
+How many records have missing city?
+How many records have missing state?
+How many records have missing country?
+How many records have missing email address?
+Show records with incomplete information
+
+11. Aggregation Queries
+
+Show top 10 organizations
+Show top 15 organizations
+Show top 20 cities
+Show top 10 states
+Show top 25 organizations
+Show top 50 cities
+Top organizations by attorney count
+Top states by attorney count
+
+12. Natural Language Variations
+
+Where do most attorneys work?
+Which state employs the most attorneys?
+Show me the biggest organizations.
+Who has the largest attorney workforce?
+Which city has the most attorneys?
+Which organizations are most popular?
+How many lawyers are in California?
+List the busiest states.
+Show attorney distribution.
+Find organizations with the highest attorney count.
+Which state has the most lawyers?
+Show me where attorneys are concentrated.
+Display the leading organizations by attorney count.
+Which city has the strongest legal presence?
+
+Suggested Demo Flow
+
+Top 10 states by attorney count
+Top 10 cities by attorney count
+Attorney vs Agent distribution
+How many attorneys are in California?
+Top organizations in Pennsylvania
+Give the total count of empty organization
+Which organization has the highest number of attorneys?
+Which state has the highest attorney concentration?
+Show attorney count by state
+Where do most attorneys work?
