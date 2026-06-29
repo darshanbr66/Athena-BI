@@ -4,7 +4,13 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
 
-  base: "/Athena-BI/",
+  base:
+
+    process.env.NODE_ENV === "production"
+
+      ? "/Athena-BI/"
+
+      : "/",
 
   plugins: [
 
